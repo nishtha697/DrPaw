@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "dr-paw-directory-app",
+    "slug": "dr-paw-directory-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
