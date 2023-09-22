@@ -47,9 +47,8 @@ const VetHospitalItem = ({vetHospital}) => {
         <View style={styles.container}>
 
             <VetClinicPhotoSVG style={styles.photo}/>
-            <Text style={styles.name}>{vetHospital.name}</Text> {/* Display the name of the hospital */}
-            <Text style={styles.address}>{vetHospital.address}</Text> {/* Display the address of the hospital */}
-            {/* Display the rating using FilledStarSVG and EmptyStarSVG components */}
+            <Text style={styles.name}>{vetHospital.name}</Text>
+            <Text style={styles.address}>{vetHospital.address}</Text>
             <View style={styles.ratingContainer}>
                 <View style={{flexDirection: 'row', paddingTop: 2}}>
                     {[...Array(5)].map((_, i) =>
@@ -59,18 +58,15 @@ const VetHospitalItem = ({vetHospital}) => {
                                            : <EmptyStarSVG key={i}/>
                     )}
                 </View>
-                {/* Display the number of reviews */}
                 <Text style={styles.noOfReviews}>
                     ({vetHospital?.user_ratings_total?.$numberInt || 0})
                 </Text>
             </View>
-            {/* Display the distance to the hospital */}
             <View style={styles.locationIcon}><LocationSVG/>
                 <Text style={styles.distance}>{parseFloat(vetHospital.distance)
                     .toFixed(2)} kms</Text>
             </View>
             <View style={styles.innerContainer}>
-                {/* Display the services offered and provide a button to book an appointment */}
                 <View style={styles.innerContainerRow}>
                     <ServicesSVG style={styles.innerContainerIcon}/>
                     <Text style={styles.innerContainerText}>{vetHospital['services_offered'].map(
@@ -82,7 +78,6 @@ const VetHospitalItem = ({vetHospital}) => {
                     <TouchableOpacity style={styles.innerContainerText}><Text>Book an
                         Appointment</Text></TouchableOpacity>
                 </View>
-                {/* Display a button to navigate to the MapScreen with the hospital's location */}
                 <TouchableOpacity style={styles.mapsButton}
                                   onPress={() => {
                                       console.log('Navigating with coordinates:', routeToShow);
