@@ -1,3 +1,4 @@
+//Custom map style for MapScreen
 const mapStyle = [
     {
         "elementType": "geometry",

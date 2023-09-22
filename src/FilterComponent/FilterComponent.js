@@ -1,9 +1,14 @@
+// Importing required modules and components
 import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import DropdownSVG from "../SVGs/DropdownSVG";
 import {Menu} from 'react-native-paper';
 import styles from './FilterComponentStyles';
 
+/** FilterComponent is a functional component used to render
+ * a set of filtering options for the user, allowing them to
+ * sort and select facility types.
+ * */
 const FilterComponent = ({
                              sortMenuVisible, setSortMenuVisible,
                              selectedSortByValue, setSelectedSortByValue,
@@ -11,8 +16,11 @@ const FilterComponent = ({
                              selectedFacilityTypeValue, setSelectedFacilityTypeValue, style
                          }) => {
 
+    // Handlers to toggle visibility of the sort menu
     const openSortMenu = () => setSortMenuVisible(true);
     const closeSortMenu = () => setSortMenuVisible(false);
+
+    // Handlers to toggle visibility of the facility menu
     const openFacilityMenu = () => setFacilityMenuVisible(true);
     const closeFacilityMenu = () => setFacilityMenuVisible(false);
 
@@ -86,4 +94,5 @@ const FilterComponent = ({
     );
 }
 
+// Exporting the component to be used in other parts of the application
 export default FilterComponent;

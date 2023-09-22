@@ -1,10 +1,15 @@
 {
   "expo": {
-    "name": "dr-paw-directory-app",
+    "name": "Dr Paw",
     "slug": "dr-paw-directory-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e3a3f530-a683-435c-8be7-22ab08402e87"
+      }
+    }
   }
 }

@@ -1,3 +1,4 @@
+// Import necessary React and React Native libraries and components
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import fetchData from '../utilities/getApiData.js';
@@ -9,6 +10,10 @@ import SearchIcon from "../SVGs/SearchIcon";
 import VetHospitalItem from "../VetHospitalItem/VetHospitalItem";
 import FilterComponent from "../FilterComponent/FilterComponent";
 
+/**
+ * VetHospitalList Component
+ * This component renders the list of veterinary hospitals based on the user's search and selected filters.
+ */
 const VetHospitalList = () => {
 
     const [searchQuery, setSearchQuery] = useState(null)
@@ -30,7 +35,15 @@ const VetHospitalList = () => {
         longitudeDelta: 0.0421,
     };
 
-    // Function to calculate the distance using Haversine formula
+    /**
+     * @function calculateDistance
+     * This function calculates the distance between two geographical points using the Haversine formula.
+     * @param {number} lat1 - Latitude of the first point.
+     * @param {number} lon1 - Longitude of the first point.
+     * @param {number} lat2 - Latitude of the second point.
+     * @param {number} lon2 - Longitude of the second point.
+     * @returns {number} - The distance between the two points in kilometers.
+     */
     function calculateDistance(lat1, lon1, lat2, lon2) {
         function toRad(x) {
             return (x * Math.PI) / 180;
@@ -50,6 +63,9 @@ const VetHospitalList = () => {
         return d;
     }
 
+    /**
+     * useEffect hook for fetching user location and data on component mount.
+     */
     useEffect(() => {
         const fetchLocationAndData = async () => {
             try {
@@ -123,6 +139,10 @@ const VetHospitalList = () => {
         fetchLocationAndData();
     }, []);
 
+    /**
+     * @function handleSearchButtonPress
+     * This function handles the logic when the search button is pressed, filtering the hospital data based on the search query.
+     */
     const handleSearchButtonPress = () => {
         if (!searchQuery) {
             setFilteredData(data); // if searchQuery is empty, set filteredData to the original data

@@ -1,3 +1,4 @@
+// Importing necessary libraries and components
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
@@ -15,7 +16,13 @@ import mapStyle from './mapStyle';
 import {useNavigation} from "@react-navigation/native";
 import FilterComponent from "../FilterComponent/FilterComponent";
 
+/**
+ * MapScreen Component is responsible for rendering maps, markers, and providing user interface
+ * elements to interact with maps and cameras. It manages the state for user’s location, camera,
+ * sort and filter options.
+ */
 const MapScreen = ({route}) => {
+    // Initialize state variables
     let routeToShow = null;
     if (route !== undefined && route.params !== undefined) {
         console.log('Received coordinates:', route.params);
@@ -30,6 +37,7 @@ const MapScreen = ({route}) => {
     const [facilityMenuVisible, setFacilityMenuVisible] = React.useState(false);
     const navigation = useNavigation();
 
+    // Initialize the default region
     const defaultRegion = {
         latitude: 40.7128,
         longitude: -74.0060,
@@ -37,10 +45,15 @@ const MapScreen = ({route}) => {
         longitudeDelta: 0.0421,
     };
 
+    // This function is responsible for navigating back to the previous screen
     const handleBackPress = () => {
         navigation.goBack();
     };
 
+    /**
+     * Requests permission to access user's location
+     * @async
+     */
     const requestLocationPermission = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -51,6 +64,10 @@ const MapScreen = ({route}) => {
         console.log('You can use the location');
     };
 
+    /**
+     * Requests permission to access device camera and sets the camera state.
+     * @async
+     */
     const askForCameraPermission = async () => {
         const {status} = await Camera.requestCameraPermissionsAsync();
         if (status === 'granted') {
@@ -60,10 +77,13 @@ const MapScreen = ({route}) => {
         }
     };
 
+    // This effect runs once on component mount and requests location permission
     useEffect(() => {
         requestLocationPermission();
     }, []);
 
+    // This effect is responsible for fetching the current location and required API data when the
+    // component is mounted
     useEffect(() => {
         const fetchLocation = async () => {
             let location = await Location.getCurrentPositionAsync({
@@ -82,7 +102,7 @@ const MapScreen = ({route}) => {
         fetchLocation()
             .catch(error => console.log(error));
 
-        // Fetch other data...
+        // Fetch API data
         fetchData()
             .then(data => {
                 const transformedCoordinates = data.documents.map(document => {
@@ -104,13 +124,14 @@ const MapScreen = ({route}) => {
 
     }, [setInitialRegion]);
 
+    // Define styling for the filter
     const filterStyle = {
         backgroundColor: "#EBEBEB"
     }
     return (
         <View style={styles.container}>
 
-            {/* Conditionally Render MapView or Camera */}
+            {/* Render MapView or Camera based on the state of isCameraOpen */}
             {isCameraOpen ? (
                 <Camera style={{flex: 1}} type={Camera.Constants.Type.back}/>
             ) : (
@@ -130,12 +151,14 @@ const MapScreen = ({route}) => {
                              style={filterStyle}
                          />
                      </View>
+                     {/* Render MapView along with markers and other overlay components */}
                      <MapView
                          style={styles.map}
                          region={routeToShow || initialRegion
                                  || defaultRegion} // use region prop instead of initialRegion
                          customMapStyle={mapStyle}
                      >
+                         {/* Render the current user location marker if the initialRegion is available */}
                          {initialRegion && (
                              <Marker
                                  coordinate={initialRegion}
@@ -146,6 +169,7 @@ const MapScreen = ({route}) => {
                                  </View>
                              </Marker>
                          )}
+                         {/* Map over the coordinates state and render a marker for each coordinate */}
                          {coordinates && coordinates.map((coordinate, index) => (
                              <Marker
                                  key={index}
@@ -162,6 +186,7 @@ const MapScreen = ({route}) => {
                              </Marker>
                          ))}
                      </MapView>
+                     {/* Overlay components such as back button and profile button */}
                      <View style={styles.overlay}>
                          <TouchableOpacity
                              style={styles.backButton}
@@ -174,6 +199,7 @@ const MapScreen = ({route}) => {
                          </TouchableOpacity>
 
                      </View>
+                     {/* Button to request camera permission and trigger camera view */}
                      <TouchableOpacity
                          onPress={askForCameraPermission}
                      >
@@ -189,4 +215,5 @@ const MapScreen = ({route}) => {
 
 };
 
+// Exporting the MapScreen component to be used in other parts of the application
 export default MapScreen;
